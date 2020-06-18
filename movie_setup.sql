@@ -30,6 +30,7 @@ create table movie (
     release_date DATE NOT NULL,
     duration INT,
     movie_rating ENUM('G', 'PG', 'PG-13', 'R', 'NC-17'),
+    gross_profit_dollars BIGINT,
     genre_id INT,
 	constraint foreign key (genre_id) references genre(genre_id)
     );
@@ -41,32 +42,32 @@ create table movie (
 
 insert into movie values
 (1, 'Inception', 'A thief who steals corporate secrets through the use of dream-sharing
- technology is given the inverse task of planting an idea into the mind of a C.E.O.', '2010-07-16', 136.8, 'PG-13', 1),
+ technology is given the inverse task of planting an idea into the mind of a C.E.O.', '2010-07-16', 136.8, 'PG-13', 829895144, 1),
 (2, 'The Shawshank Redemption', 'Two imprisoned men bond over a number of years, finding solace and eventual 
-redemption through acts of common decency.', '1994-10-14', 133.2, 'R', 9),
+redemption through acts of common decency.', '1994-10-14', 133.2, 'R', 28428150, 9),
 (3, 'The Dark Night', 'When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must 
-accept one of the greatest psychological and physical tests of his ability to fight injustice.', '2008-07-18', 139.2, 'PG-13', 5),
+accept one of the greatest psychological and physical tests of his ability to fight injustice.', '2008-07-18', 139.2, 'PG-13', 1004934033, 5),
 (4, 'The Lord of the Rings: The Fellowship of the Ring', 'A meek Hobbit from the Shire and eight companions set out on 
-a journey to destroy the powerful One Ring and save Middle-earth from the Dark Lord Sauron.', '2001-12-19', 154.8, 'PG-13', 5),
+a journey to destroy the powerful One Ring and save Middle-earth from the Dark Lord Sauron.', '2001-12-19', 154.8, 'PG-13', 887832826, 5),
 (5, 'The Matrix', 'A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war 
-against its controllers.', '1999-03-31', 129.6, 'R', 1),
+against its controllers.', '1999-03-31', 129.6, 'R', 465343787, 1),
 (6, 'The Wolf of Wall Street', 'Based on the true story of Jordan Belfort, from his rise to a wealthy stock-broker living the
- high life to his fall involving crime, corruption and the federal government.', '2013-12-25', 180, 'R', 9),
+ high life to his fall involving crime, corruption and the federal government.', '2013-12-25', 180, 'R', 392000694, 9),
 (7, 'Avengers: Endgame', 'After the devastating events of Avengers: Infinity War (2018), the universe is in ruins. With the 
 help of remaining allies, the Avengers assemble once more in order to reverse Thanos actions and restore balance to the universe.',
-'2019-04-26', 181.2, 'PG-13', 9),
+'2019-04-26', 181.2, 'PG-13', 2797800564, 9),
 (8, 'Clueless', 'Shallow, rich and socially successful Cher is at the top of her Beverly Hills high schools pecking scale. Seeing
- herself as a matchmaker, Cher first coaxes two teachers into dating each other.', '1995-07-19', 82.2, 'PG-13', 12),
+ herself as a matchmaker, Cher first coaxes two teachers into dating each other.', '1995-07-19', 82.2, 'PG-13', 60900841, 12),
 (9, 'Harry Potter and the Half-Blood Prince', 'As Harry Potter (Daniel Radcliffe) begins his sixth year at Hogwarts, he discovers
  an old book marked as "the property of the Half-Blood Prince" and begins to learn more about Lord Voldemorts (Ralph Fiennes) 
- dark past.', '2009-07-15', 139.8, 'PG', 5),
+ dark past.', '2009-07-15', 139.8, 'PG', 934326396, 5),
 (10, 'The Edge of Seventeen', 'High-school life gets even more unbearable for Nadine when her best friend, Krista, starts dating 
-her older brother.', '2016-11-18', 86.4, 'R', 2),
+her older brother.', '2016-11-18', 86.4, 'R', 19370020, 2),
 (11, 'The Princess Diaries', 'Mia Thermopolis has just found out that she is the heir apparent to the throne of Genovia. 
 With her friends Lilly and Michael Moscovitz in tow, she tries to navigate through the rest of her sixteenth year.',
-'2001-08-03', 90.6, 'G', 10),
-(12, 'High School Musical', 'A popular high school athlete and an academically gifted girl get roles in the school musical and 
-develop a friendship that threatens East Highs social order.', '2006-01-20', 82.8, 'PG', 10);
+'2001-08-03', 90.6, 'G', 165335153, 10),
+(12, 'High School Musical 3', 'A popular high school athlete and an academically gifted girl get roles in the school musical and 
+develop a friendship that threatens East Highs social order.', '2006-01-20', 82.8, 'PG', 252909177, 10);
 
 
 drop table if exists producing_company;
@@ -116,39 +117,55 @@ insert into movie_producing_company values
 (1, 11),
 (1, 12);
 
+drop table if exists platform;
+create table platform (
+	platform_id INT PRIMARY KEY NOT NULL UNIQUE,
+    platform_name ENUM('NETFLIX', 'AMAZON_PRIME', 'HULU', 'YouTube', 'Disney +', 'HOTSTAR', 'OTHER') NOT NULL
+    );
+    
+insert into platform values 
+(1, 'NETFLIX'),
+(2, 'AMAZON_PRIME'),
+(3, 'HULU'),
+(4, 'YouTube'),
+(5, 'Disney +'),
+(6, 'HOTSTAR'),
+(7, 'OTHER');
+
 drop table if exists movie_platform;
 create table movie_platform (
-	platform ENUM('NETFLIX', 'AMAZON_PRIME', 'HULU', 'YouTube', 'Disney_+', 'HOTSTAR', 'OTHER') NOT NULL,
+	platform_id INT NOT NULL, 
     movie_id INT NOT NULL,
+    constraint foreign key (platform_id) references platform(platform_id),
     constraint foreign key (movie_id) references movie(movie_id)
     );
 
 insert into movie_platform values
-('NETFLIX', 1),
-('NETFLIX', 2),
-('AMAZON_PRIME', 2),
-('HULU', 3),
-('NETFLIX', 4),
-('AMAZON_PRIME', 4),
-('NETFLIX', 5),
-('NETFLIX', 6),
-('AMAZON_PRIME', 6),
-('Disney_+', 7),
-('HOTSTAR', 7),
-('Disney_+', 8),
-('NETFLIX', 8),
-('HOTSTAR', 8),
-('AMAZON_PRIME', 9),
-('NETFLIX', 10),
-('AMAZON_PRIME', 10),
-('DISNEY_+', 11),
-('NETFLIX', 11),
-('AMAZON_PRIME', 11),
-('HOTSTAR', 11),
-('AMAZON_PRIME', 12),
-('NETFLIX', 12),
-('DISNEY_+', 12),
-('HOTSTAR', 12);
+(1, 1),
+(1, 2),
+(2, 2),
+(3, 3),
+(1, 4),
+(2, 4),
+(1, 5),
+(1, 6),
+(2, 6),
+(5, 7),
+(6, 7),
+(5, 8),
+(1, 8),
+(6, 8),
+(2, 9),
+(1, 10),
+(2, 10),
+(5, 11),
+(1, 11),
+(2, 11),
+(6, 11),
+(2, 12),
+(1, 12),
+(5, 12),
+(6, 12);
 
 drop table if exists nomination;
 create table nomination (
@@ -529,45 +546,37 @@ select name
 from actor_or_director
 where nationality = 'American' and actor = true;
 
--- Write a query in SQL to find the name of those movies where one or 
+-- find the name of those movies where one or 
 -- more actors acted in two or more movies.
--- DO THIS !!! NIGHT!
-SELECT title 
-FROM movie 
-WHERE movie_id IN (
-	SELECT movie_id 
-	FROM actor_or_director 
-	WHERE actor_or_director_id IN (
-		SELECT actor_or_director_id 
-		FROM actor_or_director 
-		WHERE actor_or_director_id IN (
-			SELECT actor_or_director_id
-			FROM movie GROUP BY actor_or_director_id 
-			HAVING COUNT(actor_or_director_id)>1)));
 
--- find the number of awards won and nominated by an actor/director/movie. Order from highest to lowest.
+select name, count(*) num_movies
+from actor_or_director
+	join actor_or_director_movie using (actor_or_director_id)
+    join movie using (movie_id)
+where actor = true
+group by name
+having num_movies > 1;
 
-(select name, count(actor_or_director_nomination.nomination_id) num_wins
+-- find the number of awards won by an actor/director. Order from highest to lowest.
+
+select name, count(actor_or_director_nomination.nomination_id) num_wins
 from actor_or_director
 	join actor_or_director_nomination using (actor_or_director_id)
     join nomination using (nomination_id)
 where winner = true
 group by name
-order by num_wins DESC) 
-union
-(select name, count(actor_or_director_nomination.nomination_id) num_nomination
+order by num_wins DESC;
+
+-- find the number of awards nominated by an actor/director/movie. Order from highest to lowest.
+
+select name, count(actor_or_director_nomination.nomination_id) num_nomination
 from actor_or_director
 	join actor_or_director_nomination using (actor_or_director_id)
     join nomination using (nomination_id)
 where winner = false
 group by name
-order by num_nomination DESC);
+order by num_nomination DESC;
 
-select name, count(winner = true) num_win, count(winner = false) num_nomination
-from actor_or_director
-	join actor_or_director_nomination using (actor_or_director_id)
-    join nomination using (nomination_id)
-group by name;
 
 -- output movies with a rating more than 8 stars
 
@@ -587,7 +596,7 @@ where movie_id not in (
 );
 
 
--- Write a query in SQL to return the reviewer name, movie title, and stars for those 
+-- return the reviewer name, movie title, and stars for those 
 -- movies which reviewed by a reviewer and must be rated. Sort the result by reviewer 
 -- name, movie title, and number of stars.
 
@@ -612,6 +621,7 @@ group by genre_name
 order by avg_duration DESC;
 
 -- find all the movies and their directors (if they have any) released before January 1, 2000.
+
 select name, title, plot, release_date, duration, genre_name
 from actor_or_director
 	left join actor_or_director_movie using (actor_or_director_id)
@@ -621,5 +631,203 @@ where actor = false and release_date < '2000-01-01'
 order by release_date DESC;
 
 -- calculate the sum of the duration of all the movies in hours
-select round(sum(duration)/60, 2) hours
+
+select round(sum(duration) / 60, 2) hours
 from movie;
+
+-- get directors over the age of 60
+
+select name, round((DATEDIFF(now(), dob) / 365), 2) age
+from actor_or_director
+where actor = false and round((DATEDIFF(now(), dob) / 365), 2) > 60;
+
+-- find all the comedy movies
+
+select *
+from movie
+	join genre using (genre_id)
+where genre_name = 'Comedy';
+
+-- find the top 5 highest rated movies by the followers of user 
+
+select title, plot, duration, genre_name
+from follower_followee
+	join rating on (followee_id = user_id)
+    join movie using (movie_id)
+    join genre using (genre_id)
+where follower_id = 2 and rating > 7
+order by rating DESC
+limit 5;
+
+-- movies recommended based on the genre
+
+select title as 'You should watch'
+from movie
+where genre_id in (
+	select genre_id
+	from rating
+		join movie using (movie_id)
+	where user_id = 1
+	group by genre_id
+    order by count(genre_id) DESC
+) and movie_id not in (
+		select movie_id
+		from rating 
+		where user_id = 1);
+
+-- movies recommended based on the director
+
+select title as 'You should watch'
+from actor_or_director
+	join actor_or_director_movie using (actor_or_director_id)
+    join movie using (movie_id)
+where name in (
+	select name
+	from rating
+		join actor_or_director_movie using (movie_id)
+		join actor_or_director using (actor_or_director_id)
+	where actor = false
+	group by actor_or_director_id
+	order by count(actor_or_director_id) DESC)
+    and movie_id not in (
+		select movie_id
+        from rating 
+        where user_id = 1);
+        
+-- movies recommended based on the actor
+
+select title as 'You should watch'
+from actor_or_director
+	join actor_or_director_movie using (actor_or_director_id)
+    join movie using (movie_id)
+where name in (
+	select name
+	from rating
+		join actor_or_director_movie using (movie_id)
+		join actor_or_director using (actor_or_director_id)
+	where actor = true
+	group by actor_or_director_id
+	order by count(actor_or_director_id) DESC)
+    and movie_id not in (
+		select movie_id
+        from rating 
+        where user_id = 1)
+group by title;
+
+-- find all the movies where 'leonardo dicaprio' has acted in
+
+select title
+from movie
+	join actor_or_director_movie using (movie_id)
+    join actor_or_director using (actor_or_director_id)
+where name = 'leonardo dicaprio';
+
+-- find the actors/directors that have worked with 'christopher nolan' the most
+
+select name, count(movie_id) num_movies
+from actor_or_director 
+	join actor_or_director_movie using (actor_or_director_id)
+where movie_id in (
+	select movie_id
+    from actor_or_director
+		join actor_or_director_movie using (actor_or_director_id)
+	where name = 'christopher nolan'
+	) and name != 'christopher nolan'
+group by name
+order by count(movie_id) DESC;
+
+-- find movies by 'Warner Bros' prodycing company
+
+select title
+from producing_company
+	join movie_producing_company using (producing_company_id)
+    join movie using (movie_id)
+where producing_company = 'Warner Bros';
+
+-- recommendation based on producing company
+
+select producing_company
+from rating
+	join movie_producing_company using (movie_id)
+    join producing_company using (producing_company_id)
+where user_id = 1
+group by producing_company
+order by count(producing_company) DESC;
+
+-- get all movies on a particular platform 'Netflix'
+
+select title
+from platform
+	join movie_platform using (platform_id)
+    join movie using (movie_id)
+where platform_name = 'Netflix';
+
+-- is this movie on 'Disney +'
+
+select if(title = 'Avengers: Endgame', 'It is available', 'It is not available') as movieOnPlaftorm
+from platform
+	join movie_platform using (platform_id)
+    join movie using (movie_id)
+where platform_name = 'Disney +'
+limit 1;
+
+-- Find the conversations on 'The Shawshank Redemption'. Sort conversation by number of people involved in the conversation.
+
+select user_name
+from chat
+	join movie using (movie_id)
+    join user_chat using (chat_id)
+    join user using (user_id)
+where title = 'The Shawshank Redemption'
+group by user_name;
+
+
+-- how many conversations are there for each movie.
+
+select title, count(chat_id) conversations
+from chat
+	join movie using (movie_id)
+group by title
+order by count(chat_id) DESC;
+
+-- find all the movies that are suitable to watch for children of age 16 wihtout adults.
+
+select title
+from movie
+where movie_rating in ('G', 'PG', 'PG-13');
+
+-- find the highest grossing movie of all time
+
+select title, gross_profit_dollars
+from movie
+group by title
+order by gross_profit_dollars DESC
+limit 1;
+
+-- For each director what is the average movie rating. Include directors with no movie rating.
+
+select name, ifnull(round(avg(rating), 2), 0) avg_rating
+from rating
+	right join actor_or_director_movie using (movie_id)
+    right join actor_or_director using (actor_or_director_id)
+where actor = false
+group by name
+order by avg_rating DESC;
+
+-- For each movie what is the average rating.
+
+select title, ifnull(round(avg(rating), 2), 0) avg_rating
+from rating
+	right join movie using (movie_id)
+group by title
+order by avg_rating DESC;
+
+-- Average profit for movies directed by a director
+
+select name, ifnull(round(avg(gross_profit_dollars), 2), 0) avg_gross_profit
+from movie
+	right join actor_or_director_movie using (movie_id)
+    right join actor_or_director using (actor_or_director_id)
+where actor = false
+group by name
+order by avg_gross_profit DESC;
