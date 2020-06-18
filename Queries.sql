@@ -1,0 +1,32 @@
+-- 1. find all the movies directed by 'Christopher Nolan'
+-- 2. find all the actors that played in the movie: 'Inception'
+-- 3. find all american actors
+-- 4. find the name of those movies where one or more actors acted in two or more movies.
+-- 5. find the number of awards won by an actor/director. Order from highest to lowest.
+-- 6. find the number of awards nominated by an actor/director/movie. Order from highest to lowest.
+-- 7. find the number of awards nominated by an actor/director/movie. Order from highest to lowest.
+-- 8. find movies that have no ratings
+-- 9. return the reviewer name, movie title, and stars for those movies which reviewed by a reviewer and must be rated. Sort the result by reviewer name, movie title, and number of stars.
+-- 10. all reviewers that rated 'The Matrix'
+-- 11. For each genre output the average movie duration. Include genres without any movies.
+-- 12. find all the movies and their directors (if they have any) released before January 1, 2000.
+-- 13. calculate the sum of the duration of all the movies in hours
+-- 14. get directors over the age of 60
+-- 15. find all the comedy movies
+-- 16. find the top 5 highest rated movies by the followers of user 
+-- 17. movies recommended based on the genre
+-- 18. movies recommended based on the director
+-- 19. movies recommended based on the actor
+-- 20. find all the movies where 'leonardo dicaprio' has acted in
+-- 21. find the actors/directors that have worked with 'christopher nolan' the most
+-- 22. find movies by 'Warner Bros' prodycing company
+-- 23. recommendation based on company
+-- 24. get all movies on a particular platform 'Netflix'
+-- 25. is this movie on 'Disney_+'
+-- 26. Find the conversations on 'The Shawshank Redemption'. Sort conversation by number of people involved in the conversation.
+-- 27. how many conversations are there for each movie.
+-- 28. find all the movies that are suitable to watch for children of age 16 wihtout adults.
+-- 29. Find the highest grossing movie of all time.
+-- 30. For each director what is the average movie rating. Include directors with no movie rating.
+-- 31. For each movie what is the average rating.
+-- 32. Average profit for movies directed by a director.
